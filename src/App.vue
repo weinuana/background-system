@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-n = 25;
+m = 25;
 console.log(mon);
 </script>
 
