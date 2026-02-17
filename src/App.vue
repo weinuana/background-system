@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-const unused = 'this variable is nerve used'
+const unused = 'this variable is never used'
 </script>
 
 <style scoped></style>
