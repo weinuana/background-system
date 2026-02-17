@@ -5,8 +5,7 @@
 </template>
 
 <script setup lang="ts">
-m = 25;
-console.log(mon);
+
 </script>
 
 <style scoped></style>
