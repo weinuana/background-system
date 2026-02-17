@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-const unused = 'this variable is never used
+console.log(non);
 </script>
 
 <style scoped></style>
