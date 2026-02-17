@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-non
-console.log(non);
+mon
+console.log(mon);
 </script>
 
 <style scoped></style>
