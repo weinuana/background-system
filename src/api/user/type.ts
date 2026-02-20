@@ -4,7 +4,8 @@ export interface loginFrom {
     password: string
 }
 interface dataType {
-    token: string
+    token?: string,
+    message?: string
 }
 export interface loginResponseData {
     code: number,

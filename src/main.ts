@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-
 import App from '@/App.vue'
 //引入element-plus插件与样式
 import ElementPlus from 'element-plus'
@@ -10,7 +9,14 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 //svg插件需要配置代码
 //@ts-ignore
 import 'virtual:svg-icons-register'
-
+//引入模版的全局的样式
+import '@/styles/index.scss'
+//引入自定义插件对象:注册整个项目组件
+import globalComponent from '@/components'
+//引入路由
+import router from './router'
+//引入仓库
+import pinia from './store'
 //获取应用实例对象
 const app = createApp(App)
 //安装element-plus插件
@@ -20,12 +26,11 @@ app.use(ElementPlus, {
 //设置全局组件
 // import SvgIcon from '@/components/SvgIcon/index.vue'
 // app.component('SvgIcon', SvgIcon)
-//引入自定义插件对象:注册整个项目组件
-import globalComponent from '@/components'
+//安装自定义插件
 app.use(globalComponent)
-//引入模版的全局的样式
-import '@/styles/index.scss'
-
-
+//安装仓库
+app.use(pinia);
+//注册模版路由
+app.use(router);
 //将应用挂载到挂载点上
 app.mount('#app')
