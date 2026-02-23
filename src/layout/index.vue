@@ -6,32 +6,20 @@
             <!-- 展示菜单 -->
             <!-- 滚动组件 -->
             <el-scrollbar class="scrollbar">
-                <!-- <el-menu background-color="variable.$base-menu-background" text-color="white">
-                    <el-menu-item index="1">首页</el-menu-item>
-                    <el-menu-item index="2">数据大屏</el-menu-item>
-                    折叠菜单 
-                    <el-sub-menu index="3">
-                        <template #title>
-                            <span>权限管理</span>
-                        </template>
-<el-menu-item index="2-1">用户管理</el-menu-item>
-<el-menu-item index="2-2">角色管理</el-menu-item>
-<el-menu-item index="2-3">菜单管理</el-menu-item>
-</el-sub-menu>
-</el-menu> -->
                 <!-- 根据路由动态生成菜单 -->
-                <el-menu :default-active="route.path" background-color="variable.$base-menu-background"
-                    text-color="white" :router="true" active-text-color="pink">
+                <el-menu :collapse="LayOutSettingStore.fold ? true : false" :default-active="route.path"
+                    background-color="variable.$base-menu-background" text-color="white" :router="true"
+                    active-text-color="pink">
                     <Menu :menuList="userStore.menuRoutes"></Menu>
                 </el-menu>
             </el-scrollbar>
         </div>
         <!-- 顶部导航 -->
-        <div class="layout_tabbar">
+        <div class="layout_tabbar" :class="{ fold: LayOutSettingStore.fold ? true : false }">
             <Tabbar></Tabbar>
         </div>
         <!-- 内容展示区域 -->
-        <div class="layout_main">
+        <div class="layout_main" :class="{ fold: LayOutSettingStore.fold ? true : false }">
             <Main></Main>
         </div>
     </div>
@@ -51,10 +39,18 @@ import Main from './main/index.vue'
 import Tabbar from './tabbar/index.vue'
 //获取用户相关的小仓库
 import useUserStore from '@/store/modules/user';
+import useLayOutSettingStore from '@/store/modules/setting';
 let userStore = useUserStore();
+let LayOutSettingStore = useLayOutSettingStore();
 //获取路由对象
 let route = useRoute();
 
+</script>
+
+<script lang="ts">
+export default {
+    name: "Layout"
+}
 </script>
 
 <style scoped lang="scss">
@@ -70,6 +66,9 @@ let route = useRoute();
         width: variable.$base-menu-width;
         height: 100vh;
         background: variable.$base-menu-background;
+        transition: all 0.3s;
+        overflow: hidden;
+        white-space: nowrap; //禁止文本自动换行
 
         .scrollbar {
             width: 100%;
@@ -87,6 +86,13 @@ let route = useRoute();
         height: variable.$base-tabbar-height;
         top: 0px;
         left: variable.$base-menu-width;
+        transition: all 0.3s;
+        background: rgb(154, 154, 154);
+
+        &.fold {
+            width: calc(100vw - variable.$base-menu-min-width );
+            left: variable.$base-menu-min-width;
+        }
     }
 
     .layout_main {
@@ -98,6 +104,12 @@ let route = useRoute();
         top: variable.$base-tabbar-height;
         padding: 20px;
         overflow: auto;
+        transition: all 0.3s;
+
+        &.fold {
+            width: calc(100vw - variable.$base-menu-min-width );
+            left: variable.$base-menu-min-width;
+        }
     }
 }
 </style>

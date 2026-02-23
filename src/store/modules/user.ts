@@ -1,12 +1,12 @@
 //创建用户相关的小仓库
 import { defineStore } from "pinia";
 //引入接口
-import { reqLogin } from "@/api/user";
+import { reqLogin, reqUserInfo } from "@/api/user";
 //引入数据类型
 import type { loginFrom, loginResponseData } from "@/api/user/type";
 import type { UserState } from './types/type'
 //引入操作本地存储的工具方法
-import { SET_TOKEN, GET_TOKEN } from "@/utils/token";
+import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from "@/utils/token";
 //引入路由(常量路由)
 import { constantRoute } from '@/router/routes'
 let useUserStore = defineStore('User', { //User为小仓库名字
@@ -15,8 +15,11 @@ let useUserStore = defineStore('User', { //User为小仓库名字
         return {
             token: GET_TOKEN(),//用户唯一标识token
             menuRoutes: constantRoute,//仓库存储生成菜单需要数组(路由)
+            username: '',
+            avatar: '',
         }
     },
+
     //异步|逻辑的地方
     actions: {
         //用户登录的方法
@@ -35,11 +38,30 @@ let useUserStore = defineStore('User', { //User为小仓库名字
             } else {
                 return Promise.reject(new Error(result.data.message));
             }
+        },
+        //获取用户信息
+        async userInfo() {
+            //获取用户信息进行存储仓库当中[用户头像、名字]
+            let result = await reqUserInfo()
+            //如果获取用户信息成功，存储一下用户信息
+            if (result.code == 200) {
+                this.username = result.data.checkUser.username
+                this.avatar = result.data.checkUser.avatar
+                return 'ok'
+            } else {
+                return Promise.reject('获取用户信息失败');
+            }
+        },
+        //退出登录
+        userLogout() {
+            //目前没有mock接口:退出登录接口(通知服务器本地用户唯一标识失效)
+            this.token = '';
+            this.username = '';
+            this.avatar = '';
+            REMOVE_TOKEN();
         }
     },
     //计算属性
-    getters: {
-
-    }
+    getters: {},
 })
 export default useUserStore;
