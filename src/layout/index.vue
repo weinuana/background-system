@@ -99,7 +99,6 @@ export default {
         position: absolute;
         width: calc(100% - variable.$base-menu-width);
         height: calc(100vh - variable.$base-tabbar-height);
-        background: aquamarine;
         left: variable.$base-menu-width;
         top: variable.$base-tabbar-height;
         padding: 20px;
