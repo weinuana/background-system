@@ -77,7 +77,7 @@
 // 引入用户相关的仓库
 import useUserStore from '@/store/modules/user'
 
-import type { UploadProps, formEmits } from 'element-plus'
+import type { UploadProps } from 'element-plus'
 import { ElMessage } from 'element-plus'
 //引入组合式API函数ref
 import { ref, onMounted, reactive, nextTick } from 'vue';
