@@ -7,7 +7,7 @@
                 <el-button @click="addAttr" type="primary size=default" icon="Plus" style="width: 120px;"
                     :disabled="categoryStore.c3Id ? false : true">添加平台属性</el-button>
                 <el-table :border="true" style="margin:10px 0px" :data="attrArr">
-                    <el-table-column label="序号" type="index" align:center width="80px"></el-table-column>
+                    <el-table-column label="序号" type="index" align="center" width="80px"></el-table-column>
                     <el-table-column label="属性名称" width="120px" prop="attrName"></el-table-column>
                     <el-table-column label="属性值名称">
                         <template #="{ row, $index }">
@@ -16,10 +16,13 @@
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" width="120px">
+                        <!-- row已有的属性对象 -->
                         <template #default="scope">
+                            <!-- 修改已有属性的按钮 -->
                             <el-button type="primary" size="large" icon="Edit" style="width: 40px;"
-                                @click="updateAttr"></el-button>
-                            <el-popconfirm :title="`您确定要删除${scope.row.tmName}?`" width="250px" icon="Delete">
+                                @click="updateAttr(scope.row)"></el-button>
+                            <el-popconfirm :title="`您确定要删除${scope.row.attrName}?`" width="250px" icon="Delete"
+                                @confirm="deleteAttr(scope.row.id)">
                                 <template #reference>
                                     <el-button type="primary" size="large" icon="Delete"
                                         style="width: 40px;"></el-button>
@@ -39,7 +42,7 @@
                     size="default" icon="Plus" style="width: 110px;">添加属性值</el-button>
                 <el-button type="primary" size="default" style="width: 60px;" @click="cancel">取消</el-button>
                 <el-table :border="true" style="margin:10px 0px" :data="attrParams.attrValueList">
-                    <el-table-column label="序号" width="80px" type="index" align:center></el-table-column>
+                    <el-table-column label="序号" width="80px" type="index" align="center"></el-table-column>
                     <el-table-column label="属性值名称">
                         <template #="{ row, $index }">
                             <el-input :ref="(vc: any) => inputArr[$index] = vc" v-if="row.flag" placeholder="请你输入属性值名称"
@@ -65,10 +68,10 @@
 
 <script setup lang="ts">
 //引入组合式API函数
-import { watch, ref, reactive, nextTick } from 'vue';
+import { watch, ref, reactive, nextTick, onBeforeUnmount } from 'vue';
 import { ElMessage } from 'element-plus';
 //引入获取已有属性与属性值接口
-import { reqAttr, reqAddOrUpdateAttr } from '@/api/product/attr';
+import { reqAttr, reqAddOrUpdateAttr, reqRemoveAttr } from '@/api/product/attr';
 import type { Attr } from '@/api/product/attr/type';
 import useCategoryStore from '@/store/modules/Category';
 import type { AttrResponseData, AttrValue } from '@/api/product/attr/type';
@@ -123,7 +126,7 @@ const updateAttr = (row: Attr) => {
     //切换为添加与修改属性的结构
     scene.value = 1;
     //将已有的属性对象赋值给attrParams对象即为
-    //ES6->Object.assign进行对象的合并
+    //ES6->Object.assign进行对象的合并(要为深拷贝,防止改动原数组)
     Object.assign(attrParams, JSON.parse(JSON.stringify(row)));
 }
 //取消按钮的回调
@@ -208,6 +211,32 @@ const toEdit = (row: AttrValue, $index: number) => {
     })
 
 }
+//删除某一个已有的属性方法回调
+const deleteAttr = async (attrId: number) => {
+
+    //发相应的删除已有的属性的请求
+    let result: any = await reqRemoveAttr(attrId);
+    //删除成功
+    if (result.code == 200) {
+        ElMessage({
+            type: 'success',
+            message: '删除成功'
+        })
+        //获取一次已有的属性与属性值
+        getAttr();
+    } else {
+        ElMessage({
+            type: 'error',
+            message: '删除失败'
+        })
+    }
+}
+
+//路由组件销毁的时候，把仓库分类相关的数据清空
+onBeforeUnmount(() => {
+    //清空仓库的数据
+    categoryStore.$reset();
+})
 </script>
 
 <style scoped></style>

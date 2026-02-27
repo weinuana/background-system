@@ -9,7 +9,7 @@
                 table-column:---label:某一个列表 ---width:设置这列宽度 ---align:设置这一列对齐方式    
             -->
             <el-table style="margin:10px 0px;width: 100%;" :border="true" :data="trademarkArr">
-                <el-table-column label="序号" width="80px" align:center type="index"></el-table-column>
+                <el-table-column label="序号" width="80px" align="center" type="index"></el-table-column>
                 <!-- table-column:默认展示数据用div -->
                 <el-table-column label="品牌名称" prop="tmName"></el-table-column>
                 <el-table-column label="品牌LOGO">
