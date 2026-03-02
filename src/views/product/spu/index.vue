@@ -17,7 +17,7 @@
                         <!-- row:即为已有的SPU对象 -->
                         <template #="{ row, $index }">
                             <el-button type="primary" size="small" icon="Plus" title="添加SKU" style="width: 40px;"
-                                @click="addSku"></el-button>
+                                @click="addSku(row)"></el-button>
                             <el-button type="primary" size="small" icon="Edit" title="修改SPU" style="width: 40px;"
                                 @click="updateSpu(row)"></el-button>
                             <el-button type="primary" size="small" icon="View" title="查看SKU列表"
@@ -40,7 +40,7 @@
             <spuForm ref="spu" v-show="scene == 1" @changeScene="changeScene">
             </spuForm>
             <!-- 添加SKU子组件 -->
-            <skuForm v-show="scene == 2" @changeScene="changeScene"></skuForm>
+            <skuForm ref="sku" v-show="scene == 2" @changeScene="changeScene"></skuForm>
         </el-card>
     </div>
 </template>
@@ -56,7 +56,7 @@ import useCategoryStore from '@/store/modules/Category';
 let categoryStore = useCategoryStore();
 import { ref, watch } from 'vue';
 //场景的数据
-let scene = ref<number>(2); //0:显示已有SPU  1:添加或者修改已有SPU 2:添加SKU的结构
+let scene = ref<number>(0); //0:显示已有SPU  1:添加或者修改已有SPU 2:添加SKU的结构
 //分页器默认页码
 let pageNo = ref<number>(1);
 //每一页展示几条数据
@@ -67,6 +67,7 @@ let records = ref<Records>([]);
 let total = ref<number>(0);
 //获取子组件实例
 let spu = ref<any>();
+let sku = ref<any>();
 //监听三级分类ID变化
 watch(() => categoryStore.c3Id, () => {
     //当三级分类发生变化的时候清空对应的数据
@@ -121,7 +122,7 @@ const addSku = (row: SpuData) => {
     //点击添加SKU按钮切换场景为2
     scene.value = 2;
     //调用子组件的方法初始化添加SKU的数据
-    //sku.value.initSkuData(categoryStore.c1Id, categoryStore.c2Id, row);
+    sku.value.initSkuData(categoryStore.c1Id, categoryStore.c2Id, row);
 }
 </script>
 
