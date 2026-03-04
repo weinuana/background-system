@@ -1,5 +1,5 @@
 <template>
-    <el-card style="height: 80px; ">
+    <el-card>
         <el-form :inline="true" class="form">
             <el-form-item label="用户名:">
                 <el-input placeholder="请你输入搜索用户名" v-model="keyword"></el-input>
@@ -87,7 +87,7 @@
                     <!-- 显示职位的的复选框 -->
                     <el-checkbox-group v-model="userRole" @change="handleCheckedCitiesChange">
                         <el-checkbox v-for="(role, index) in allRole" :key="index" :label="role">{{ role.roleName
-                            }}</el-checkbox>
+                        }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
             </el-form>
@@ -348,5 +348,10 @@ const reset = () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
+}
+
+:deep(.el-card__body) {
+    padding-bottom: 10px;
 }
 </style>
