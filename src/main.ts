@@ -11,6 +11,8 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import 'virtual:svg-icons-register'
 //引入模版的全局的样式
 import '@/styles/index.scss'
+//暗黑模式需要的样式
+import 'element-plus/theme-chalk/dark/css-vars.css'
 //引入自定义插件对象:注册整个项目组件
 import globalComponent from '@/components'
 //引入路由
