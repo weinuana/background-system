@@ -48,16 +48,6 @@ export const constantRoute = [
         }
     },
     {
-        path: '/:pathMatch(.*)*',
-        redirect: '/404',
-        name: 'Any',
-        meta: {
-            title: '任意路由',
-            hidden: true,
-            icon: 'DataLine'
-        }
-    },
-    {
         path: '/screen',
         component: () => import('@/views/screen/index.vue'),
         name: 'Screen',
@@ -67,6 +57,10 @@ export const constantRoute = [
             icon: 'Platform',
         },
     },
+]
+
+//异步路由
+export const asnycRoute = [
     {
         path: '/acl',
         component: () => import('@/layout/index.vue'),
@@ -104,7 +98,6 @@ export const constantRoute = [
                     icon: 'Monitor',
                 },
             },
-
         ],
     },
     {
@@ -155,4 +148,19 @@ export const constantRoute = [
             },
         ],
     },
+]
+
+//任意路由
+export const anyRoute = [
+    {
+        //任意路由
+        path: '/:pathMatch(.*)*',
+        redirect: '/404',
+        name: 'Any',
+        meta: {
+            title: '任意路由',
+            hidden: true,
+            icon: 'DataLine',
+        },
+    }
 ]

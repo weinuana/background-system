@@ -5,7 +5,8 @@ export interface UserState {
     token: string | null;
     menuRoutes: RouteRecordRaw[];
     username: string
-    avatar: string
+    avatar: string;
+    buttons: string[]
 }
 
 //定义分类仓库state对象的ts类型

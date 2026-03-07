@@ -21,12 +21,15 @@ import router from './router'
 import pinia from './store'
 //引入路由鉴权
 import './permisstion'
+//引入自定义指令文件
+import { isHasButton } from './directive/has'
 //获取应用实例对象
 const app = createApp(App)
 //安装element-plus插件
 app.use(ElementPlus, {
     locale: zhCn//国际化配置 变成中文
 });
+isHasButton(app);
 //设置全局组件
 // import SvgIcon from '@/components/SvgIcon/index.vue'
 // app.component('SvgIcon', SvgIcon)
