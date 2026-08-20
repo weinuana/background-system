@@ -1,15 +1,12 @@
 <template>
-  <router-view></router-view>
+  <!-- 在根组件提供中文配置，保留按需加载前的国际化行为 -->
+  <el-config-provider :locale="zhCn">
+    <router-view></router-view>
+  </el-config-provider>
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/SvgIcon/index.vue'
-import request from './utils/request';
-import { reqLogin } from './api/user';
-import { onMounted } from 'vue';
-onMounted(() => {
-  reqLogin({ username: 'admin', password: '111111' })
-})
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 </script>
 
 <style scoped lang="scss">

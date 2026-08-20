@@ -7,7 +7,7 @@ import { viteMockServe } from 'vite-plugin-mock'
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
   //获取各个环境下的对应的变量
-  let env = loadEnv(mode, process.cwd()); //加载哪一个环境的文件 根目录在哪个位置(相当于环境的文件)
+  const env = loadEnv(mode, process.cwd()); //加载哪一个环境的文件 根目录在哪个位置(相当于环境的文件)
   return {
     plugins: [vue(),
     createSvgIconsPlugin({
@@ -44,6 +44,25 @@ export default defineConfig(({ command, mode }) => {
           rewrite: (path) => path.replace(/^\/api/, ''),
         }
       }
+    },
+    build: {
+      //将更新频率不同的大型依赖拆成独立文件，业务代码更新后浏览器仍可复用依赖缓存。
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (!id.includes('node_modules')) return
+            if (id.includes('element-plus') || id.includes('@element-plus/icons-vue')) {
+              return 'element-plus'
+            }
+            if (id.includes('echarts')) {
+              return 'echarts'
+            }
+            if (id.includes('/vue/') || id.includes('/@vue/') || id.includes('vue-router') || id.includes('pinia')) {
+              return 'vue-vendor'
+            }
+          },
+        },
+      },
     }
   }
 })

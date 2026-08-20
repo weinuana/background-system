@@ -27,7 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+
+defineOptions({ name: 'DataScreen' })
 //引入顶部的子组件
 import Top from './components/top/index.vue';
 //引入左侧三个子组件
@@ -44,20 +46,35 @@ import Rank from './components/rank/index.vue';
 import Year from './components/year/index.vue';
 import Counter from './components/couter/index.vue'
 //获取数据大屏展示内容盒子的DOM元素
-let screen = ref();
-onMounted(() => {
+const screen = ref<HTMLDivElement>()
+let resizeFrame = 0
+
+const setScreenScale = () => {
+    if (!screen.value) return
     screen.value.style.transform = `scale(${getScale()}) translate(-50%,-50%)`
-});
+}
+
+//resize事件可能连续触发，使用动画帧把同一帧的多次计算合并为一次。
+const handleResize = () => {
+    cancelAnimationFrame(resizeFrame)
+    resizeFrame = requestAnimationFrame(setScreenScale)
+}
+
+onMounted(() => {
+    setScreenScale()
+    window.addEventListener('resize', handleResize)
+})
 //定义大屏缩放比例
 function getScale(w = 1920, h = 1080) {
     const ww = window.innerWidth / w;
     const wh = window.innerHeight / h;
     return ww < wh ? ww : wh;
 }
-//监听视口变化
-window.onresize = () => {
-    screen.value.style.transform = `scale(${getScale()}) translate(-50%,-50%)`
-}
+//离开大屏时移除全局监听，避免后台页面继续执行缩放计算。
+onBeforeUnmount(() => {
+    cancelAnimationFrame(resizeFrame)
+    window.removeEventListener('resize', handleResize)
+})
 </script>
 
 <style scoped>

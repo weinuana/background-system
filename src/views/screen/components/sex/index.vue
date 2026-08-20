@@ -22,15 +22,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import * as echarts from 'echarts';
+import { ref } from 'vue'
+import { useECharts } from '@/hooks/useECharts'
+
 //获取图形图标的DOM节点
-let charts = ref();
-onMounted(() => {
-    //初始化echarts实例
-    let mycharts = echarts.init(charts.value);
+const charts = ref<HTMLDivElement>()
+useECharts(charts, () => {
     //设置配置项
-    mycharts.setOption({
+    return {
         //组件标题
         title: {
             text: '男女比例',//主标题
@@ -79,10 +78,8 @@ onMounted(() => {
             right: '20%',
             bottom: 0
         }
-    });
+    }
 })
-
-
 </script>
 
 <style scoped lang="scss">

@@ -3,7 +3,7 @@ import useUserStore from '@/store/modules/user'
 const userStore = useUserStore(pinia)
 export const isHasButton = (app: any) => {
     //获取对应的用户仓库
-    //全局自定义指令:实现按钮的权限
+    //全局自定义指令:实现按钮的权限 若没有按钮权限，则直接把按钮从页面删掉
     app.directive('has', {
         //代表使用这个全局自定义指令的DOM|组件挂载完毕的时候会执行一次
         mounted(el: any, options: any) {

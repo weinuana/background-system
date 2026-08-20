@@ -198,10 +198,8 @@ const save = async () => {
         drawer.value = false;
         //提示消息
         ElMessage({ type: 'success', message: userParams.id ? '更新成功' : '添加成功' });
-        //获取最新的全部账号的信息
-        getHasUser(userParams.id ? pageNo.value : 1);
-        //浏览器自动刷新一次
-        window.location.reload();
+        //只刷新当前列表数据，避免整站重新加载脚本、样式和路由。
+        await getHasUser(userParams.id ? pageNo.value : 1)
     } else {
         //关闭抽屉
         drawer.value = false;

@@ -9,14 +9,14 @@
 </template>
 
 <script setup lang="ts">
-import * as echarts from 'echarts';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue'
+import { useECharts } from '@/hooks/useECharts'
+
 //获取图形图标的节点
-let line = ref();
-onMounted(() => {
-    let mycharts = echarts.init(line.value);
+const line = ref<HTMLDivElement>()
+useECharts(line, () => {
     //设置配置项
-    mycharts.setOption({
+    return {
         //标题组件
         title: {
             text: '访问量',
@@ -86,7 +86,7 @@ onMounted(() => {
                 }
             }
         ]
-    })
+    }
 })
 </script>
 
