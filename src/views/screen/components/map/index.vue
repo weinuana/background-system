@@ -5,18 +5,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import * as echarts from 'echarts';
+import { ref } from 'vue'
+import { useECharts } from '@/hooks/useECharts'
+import echarts from '@/utils/echarts'
 //引入中国地图的JSON数据
 import chinaJSON from './china.json'
 //获取DOM元素
-let map = ref();
+const map = ref<HTMLDivElement>()
 //注册中国地图
 echarts.registerMap('china', chinaJSON as any)
-onMounted(() => {
-    let mychart = echarts.init(map.value);
+useECharts(map, () => {
     //设置配置项
-    mychart.setOption({
+    return {
         //地图组件
         geo: {
             map: 'china',//中国地图
@@ -107,9 +107,8 @@ onMounted(() => {
                 }
             }
         ]
-    })
-
-});
+    }
+})
 </script>
 
 <style scoped></style>

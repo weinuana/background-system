@@ -1,5 +1,3 @@
-import component from 'element-plus/es/components/tree-select/src/tree-select-option.mjs';
-
 //对外暴露配置路由(常量路由)
 export const constantRoute = [
     {
@@ -78,6 +76,8 @@ export const asnycRoute = [
                 meta: {
                     title: '用户管理',
                     icon: 'User',
+                    //缓存列表状态，返回页面时不重复请求首屏数据
+                    keepAlive: true,
                 },
             },
             {
@@ -87,6 +87,7 @@ export const asnycRoute = [
                 meta: {
                     title: '角色管理',
                     icon: 'UserFilled',
+                    keepAlive: true,
                 },
             },
             {
@@ -96,6 +97,7 @@ export const asnycRoute = [
                 meta: {
                     title: '菜单管理',
                     icon: 'Monitor',
+                    keepAlive: true,
                 },
             },
         ],
@@ -117,6 +119,7 @@ export const asnycRoute = [
                 meta: {
                     title: '品牌管理',
                     icon: 'ShoppingCartFull',
+                    keepAlive: true,
                 },
             },
             {
@@ -126,6 +129,7 @@ export const asnycRoute = [
                 meta: {
                     title: '属性管理',
                     icon: 'ChromeFilled',
+                    keepAlive: true,
                 },
             },
             {
@@ -135,6 +139,7 @@ export const asnycRoute = [
                 meta: {
                     title: 'SPU管理',
                     icon: 'Calendar',
+                    keepAlive: true,
                 },
             },
             {
@@ -144,6 +149,7 @@ export const asnycRoute = [
                 meta: {
                     title: 'SKU管理',
                     icon: 'Orange',
+                    keepAlive: true,
                 },
             },
         ],

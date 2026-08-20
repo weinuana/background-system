@@ -40,6 +40,7 @@ router.beforeEach(async (to: any, from: any, next: any) => {
                     await userStore.userInfo()
                     //放行
                     //万一:刷新的时候是异步路由,有可能获取到用户信息、异步路由还没有加载完毕,出现空白的效果
+                    //保留原本要访问的地址，加上replace已替换模式跳转，不会新增浏览器历史记录，避免页面返回异常
                     next({ ...to, replace: true })
                 } catch (error) {
                     //token过期:获取不到用户信息了

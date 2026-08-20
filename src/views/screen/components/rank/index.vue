@@ -10,16 +10,15 @@
 </template>
 
 <script setup lang="ts">
-import * as echarts from 'echarts';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue'
+import { useECharts } from '@/hooks/useECharts'
+
 //获取DOM节点
-let charts = ref();
-//组件挂载完毕
-onMounted(() => {
-    //一个容器可以同时展示多种类型的图形图标
-    let mychart = echarts.init(charts.value);
+const charts = ref<HTMLDivElement>()
+//一个容器可以同时展示多种类型的图形图标
+useECharts(charts, () => {
     //设置配置项
-    mychart.setOption({
+    return {
         //标题组件
         title: {
             //主标题
@@ -142,7 +141,7 @@ onMounted(() => {
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.7)'
         }
-    })
+    }
 })
 </script>
 

@@ -9,15 +9,14 @@
 </template>
 
 <script setup lang="ts">
-import * as echarts from 'echarts';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue'
+import { useECharts } from '@/hooks/useECharts'
+
 //获取DOM节点
-let charts = ref();
-//组件挂载完毕
-onMounted(() => {
-    //一个容器可以同时展示多种类型的图形图标
-    let mychart = echarts.init(charts.value);
-    let option = {
+const charts = ref<HTMLDivElement>()
+//一个容器可以同时展示多种类型的图形图标
+useECharts(charts, () => {
+    return {
         title: {
             text: '游客消费统计',
             textStyle: {
@@ -51,9 +50,7 @@ onMounted(() => {
                 ]
             }
         ]
-    };
-    //设置配置项
-    mychart.setOption(option)
+    }
 })
 </script>
 

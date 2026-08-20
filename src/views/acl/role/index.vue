@@ -76,8 +76,10 @@ import { reqRemoveRole, reqAllRoleList, reqAddOrUpdateRole, reqAllMenuList, reqS
 import type { RoleResponseData, Records, RoleData, MenuResponseData, MenuList } from '@/api/acl/role/type'
 //引入骨架的仓库
 import useLayOutSettingStore from '@/store/modules/setting';
+import useUserStore from '@/store/modules/user'
 import { ElMessage } from 'element-plus';
 let settingStore = useLayOutSettingStore();
+const userStore = useUserStore()
 //当前页码
 let pageNo = ref<number>(1);
 //一页展示几条数据
@@ -236,8 +238,8 @@ const handler = async () => {
         drawer.value = false;
         //提示信息
         ElMessage({ type: 'success', message: '分配权限成功' });
-        //页面刷新
-        window.location.reload();
+        //只更新当前用户的权限与动态路由，避免整站重新加载。
+        await userStore.userInfo()
     }
 }
 

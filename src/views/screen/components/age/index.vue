@@ -10,15 +10,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-//引入echarts
-import * as echarts from 'echarts';
-let charts = ref();
-//组件挂载完毕初始化图形图标
-onMounted(() => {
-    let mychart = echarts.init(charts.value);
+import { ref } from 'vue'
+import { useECharts } from '@/hooks/useECharts'
+
+const charts = ref<HTMLDivElement>()
+//共享Hook会自动处理图表resize与销毁。
+useECharts(charts, () => {
     //设置配置项
-    let option = {
+    return {
         tooltip: {
             trigger: 'item'
         },
@@ -68,9 +67,8 @@ onMounted(() => {
             right: 0,
             bottom: 0
         }
-    };
-    mychart.setOption(option);
-});
+    }
+})
 </script>
 
 <style scoped lang="scss">
